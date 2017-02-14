@@ -8,21 +8,27 @@ CREATE TABLE files (
     file_name VARCHAR
 );
 
+CREATE TABLE users (
+  ID SERIAL PRIMARY KEY,
+    username VARCHAR,
+    password VARCHAR
+);
+
 
 DROP DATABASE IF EXISTS api_test;
 CREATE DATABASE api_test;
 
 \c api_test;
 
+CREATE TABLE files (
+  ID SERIAL PRIMARY KEY,
+    file_name VARCHAR
+);
+
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
-    first_name VARCHAR,
-    last_name VARCHAR,
-    title VARCHAR,
     username VARCHAR,
-    password VARCHAR,
-    phone VARCHAR,
-    email VARCHAR
+    password VARCHAR
 );
 
 DROP DATABASE IF EXISTS api_production;
@@ -30,13 +36,13 @@ CREATE DATABASE api_production;
 
 \c api_production;
 
+CREATE TABLE files (
+  ID SERIAL PRIMARY KEY,
+    file_name VARCHAR
+);
+
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
-    first_name VARCHAR,
-    last_name VARCHAR,
-    title VARCHAR,
     username VARCHAR,
-    password VARCHAR,
-    phone VARCHAR,
-    email VARCHAR
+    password VARCHAR
 );
