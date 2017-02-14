@@ -13,9 +13,10 @@ var FileUploadView = Backbone.Marionette.View.extend({
     $('.message').text(message)
   },
   handleClick: function(e){
+    
     e.preventDefault();
-    $('.progress-bar').css('width', '0%')    
     var that = this;
+    $('.progress-bar').css('width', '0%')    
     $('.progress').removeClass('hide');
     var formData = new FormData();
     var file = document.getElementById('file-upload').files[0]
@@ -41,6 +42,8 @@ var FileUploadView = Backbone.Marionette.View.extend({
       var newFile = new File({ file_name: file.name })
       that.collection.add(newFile)
     }
+    
+    this.collection = that.collection
     
     xhr.send(formData)
 
