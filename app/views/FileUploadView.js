@@ -7,25 +7,42 @@ var FileUploadView = Backbone.Marionette.View.extend({
   },
   
   className: 'panel panel-default',
+  
+  showInfo: function(message){
+    $('.progress').addClass('hide')
+    $('.message').text(message)
+    $('.alert').removeClass('hide')    
+  },
   handleClick: function(e){
     e.preventDefault();
-    var formData = new FormData()
-    formData.append('upload', $('#file-upload')[0].files[0])
-
-    var file = new File({ file_name: $('#file-upload')[0].files[0].name })
-    this.collection.add(file)
+    var that = this;
+    $('.progress').removeClass('hide');
+    var formData = new FormData();
+    var file = document.getElementById('file-upload').files[0]
+    formData.append('upload', file)
     
-    $.ajax({
-      url: '/api/files',
-      type: 'POST',
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function(data){
-        console.log(data);
-        Backbone.trigger('files:render');
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('post', '/api/files', true)
+    
+    xhr.upload.onprogress = function(e){
+      if(e.lengthComputable){
+        var percentage = (e.loaded / e.total) * 100
+        $('.progress').css('width', percentage + '%')
       }
-    });
+    }
+    
+    xhr.onerror = function(e){
+      that.showInfo("Error...")
+    }
+    
+    xhr.onload = function(){
+      that.showInfo(file.name + " was successfully uploaded...")
+      var newFile = new File({ file_name: file.name })
+      that.collection.add(newFile)
+    }
+    
+    xhr.send(formData)
 
   }
 });
