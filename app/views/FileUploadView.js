@@ -11,10 +11,10 @@ var FileUploadView = Backbone.Marionette.View.extend({
   showInfo: function(message){
     $('.progress').addClass('hide')
     $('.message').text(message)
-    $('.alert').removeClass('hide')    
   },
   handleClick: function(e){
     e.preventDefault();
+    $('.progress-bar').css('width', '0%')    
     var that = this;
     $('.progress').removeClass('hide');
     var formData = new FormData();
@@ -28,7 +28,7 @@ var FileUploadView = Backbone.Marionette.View.extend({
     xhr.upload.onprogress = function(e){
       if(e.lengthComputable){
         var percentage = (e.loaded / e.total) * 100
-        $('.progress').css('width', percentage + '%')
+        $('.progress-bar').css('width', percentage + '%')
       }
     }
     
