@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development PORT=8000 TZ='America/Chicago' supervisor -q --ignore ./app,./test,webpack.config.js -e js node server.js",
-    "test": "NODE_ENV=test PORT=8000 TZ='America/Chicago' mocha -t 10000"
-  },
+    "start": "NODE_ENV=development PORT=8000 REDIS_STORE_URI=redis://localhost:6379 REDIS_STORE_SECRET=secret TZ='America/Chicago' supervisor -q --ignore ./app,./test,webpack.config.js -e js node server.js",
+    "test": "NODE_ENV=test PORT=8000 REDIS_STORE_URI=redis://localhost:6379 REDIS_STORE_SECRET=secretTZ='America/Chicago' mocha -t 10000"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shintech/backbone_postgres_seed.git"
@@ -23,9 +23,13 @@
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
+    "connect-redis": "^3.2.0",
     "express": "^4.14.0",
     "express-fileupload": "0.0.7",
+    "express-session": "^1.15.1",
     "jquery": "^3.1.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "pg": "^6.1.0",
     "pg-promise": "^5.4.7",
     "supertest": "^3.0.0",

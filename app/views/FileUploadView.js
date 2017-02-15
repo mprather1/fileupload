@@ -43,8 +43,6 @@ var FileUploadView = Backbone.Marionette.View.extend({
       that.collection.add(newFile)
     }
     
-    this.collection = that.collection
-    
     xhr.send(formData)
 
   }

@@ -51,14 +51,14 @@ var deleteFile = function(id){
   db.one('select * from files where id = $1', id)
   .then(function(res){
     fs.unlink('./app/static/files/' + res.file_name, function(error){
-      if(error) console.log(error)
-      console.log("File successfully deleted...")
-    })
-  })
-}
+      if(error) console.log(error);
+      console.log("File successfully deleted...");
+    });
+  });
+};
 
 module.exports = {
   uploadFile: uploadFile,
   getAllFiles: getAllFiles,
   removeFile: removeFile
-}
+};

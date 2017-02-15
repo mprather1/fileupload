@@ -14,6 +14,9 @@ CREATE TABLE users (
     password VARCHAR
 );
 
+INSERT INTO users ( username, password )
+VALUES ( 'mprather', 'password' );
+
 
 DROP DATABASE IF EXISTS api_test;
 CREATE DATABASE api_test;

@@ -3,14 +3,14 @@ var router = express.Router();
 var files = require("./db").files;
 var users = require("./db").users;
 
-// router.route("/users")
-//   .get(users.getAllUsers)
-//   .post(users.createUser)
+router.route("/users")
+  .get(users.getAllUsers)
+  .post(users.createUser)
 
-// router.route("/users/:id")
-//   .get(users.getSingleUser)
-//   .put(users.updateUser)
-// .delete(users.removeUser)
+router.route("/users/:id")
+  .get(users.getSingleUser)
+  .put(users.updateUser)
+.delete(users.removeUser)
 
 router.route('/files')
   .post(files.uploadFile)
