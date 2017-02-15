@@ -3,7 +3,7 @@ function authenticationMiddleware () {
     if (req.isAuthenticated()) {
       return next()
     }
-    res.redirect('/')
+    return res.sendStatus(400)
   }
 }
 
