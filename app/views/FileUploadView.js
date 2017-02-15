@@ -15,11 +15,16 @@ var FileUploadView = Backbone.Marionette.View.extend({
   handleClick: function(e){
     
     e.preventDefault();
+    
     var that = this;
+    
     $('.progress-bar').css('width', '0%')    
     $('.progress').removeClass('hide');
-    var formData = new FormData();
+    
     var file = document.getElementById('file-upload').files[0]
+    var newFile = new File({ file_name: file.name, file_size: file.size, mimetype: file.type })
+    
+    var formData = new FormData();
     formData.append('upload', file)
     
     var xhr = new XMLHttpRequest();
@@ -39,7 +44,6 @@ var FileUploadView = Backbone.Marionette.View.extend({
     
     xhr.onload = function(){
       that.showInfo(file.name + " was successfully uploaded...")
-      var newFile = new File({ file_name: file.name })
       that.collection.add(newFile)
     }
     

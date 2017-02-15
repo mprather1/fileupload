@@ -1,6 +1,6 @@
 var Marionette = require("marionette");
 var Files = require("./collections/Files")
-var FilesView = require("./views/FilesView");
+var FilesTableView = require("./views/FilesTableView");
 var LoginView = require("./views/LoginView")
 
 var FileUploadView = require("./views/FileUploadView");
@@ -14,7 +14,7 @@ var Controller = Marionette.Object.extend({
     this.files.fetch()
 
     this.app.view.showChildView('form', new FileUploadView({ collection: this.files }));
-    this.app.view.showChildView('main', new FilesView({ collection: this.files }));
+    this.app.view.showChildView('main', new FilesTableView({ collection: this.files }));
   },
   login: function(){
     this.app.view.showChildView('main', new LoginView())

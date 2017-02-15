@@ -1,15 +1,8 @@
 var db = require("../init");
 
 function uploadFile(req, res, next){
-  db.none('insert into files(file_name)' + 'values( $1 )', req.files.upload.name)
+  db.none('insert into files( file_name, file_size, mimetype)' + 'values( $1, $2, $3 )', [req.file.originalname, req.file.size, req.file.mimetype])
   .then(function(){
-    var file;
-    if(!req.files || req.files !== undefined){
-      file = req.files.upload
-      file.mv('./app/static/files/' + file.name, function(){
-        console.log("File Uploaded...")
-      })
-    }
     res.status(200)
     .json({
       status: 'success',
@@ -21,6 +14,18 @@ function uploadFile(req, res, next){
 function getAllFiles(req, res, next){
   db.any('select * from files')
   .then(function(data){
+    res.status(200)
+    .json(data)
+  })
+  .catch(function(err){
+    return next(err)
+  })
+}
+
+function getSingleFile(req, res, next){
+  db.one('select * from files where id = $1', req.params.id)
+  .then(function(data){
+    console.log(data)
     res.status(200)
     .json(data)
   })
@@ -60,5 +65,6 @@ var deleteFile = function(id){
 module.exports = {
   uploadFile: uploadFile,
   getAllFiles: getAllFiles,
-  removeFile: removeFile
+  removeFile: removeFile,
+  getSingleFile: getSingleFile
 };

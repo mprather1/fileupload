@@ -5,7 +5,9 @@ CREATE DATABASE api_development;
 
 CREATE TABLE files (
   ID SERIAL PRIMARY KEY,
-    file_name VARCHAR
+    file_name VARCHAR,
+    file_size VARCHAR,
+    mimetype VARCHAR
 );
 
 CREATE TABLE users (
@@ -25,7 +27,9 @@ CREATE DATABASE api_test;
 
 CREATE TABLE files (
   ID SERIAL PRIMARY KEY,
-    file_name VARCHAR
+    file_name VARCHAR,
+    file_size VARCHAR,
+    mimetype VARCHAR
 );
 
 CREATE TABLE users (
@@ -41,7 +45,9 @@ CREATE DATABASE api_production;
 
 CREATE TABLE files (
   ID SERIAL PRIMARY KEY,
-    file_name VARCHAR
+    file_name VARCHAR,
+    file_size VARCHAR,
+    mimetype VARCHAR
 );
 
 CREATE TABLE users (
