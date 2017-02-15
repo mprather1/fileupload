@@ -16,7 +16,7 @@ var Controller = Marionette.Object.extend({
     this.app.view.showChildView('form', new FileUploadView({ collection: this.files }));
     this.app.view.showChildView('main', new FilesTableView({ collection: this.files }));
   },
-  login: function(){
+  loginFunction: function(){
     this.app.view.showChildView('main', new LoginView())
   },
 });
