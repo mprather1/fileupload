@@ -45,6 +45,7 @@ var FileUploadView = Backbone.Marionette.View.extend({
     xhr.onload = function(){
       that.showInfo(file.name + " was successfully uploaded...")
       that.collection.add(newFile)
+      document.getElementById('file-upload').value = ''
     }
     
     xhr.send(formData)
