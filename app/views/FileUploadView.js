@@ -1,16 +1,17 @@
-var File = require("../models/File")
+var File = require("../models/File");
 
 var FileUploadView = Backbone.Marionette.View.extend({
   template: require("../templates/file-upload-view.html"),
   events: {
-    'click #file-submit': 'handleClick'
+    'click #file-submit': 'handleClick',
+    'click #file-upload': 'clearMessage'
   },
   
   className: 'panel panel-default',
   
   showInfo: function(message){
-    $('.progress').addClass('hide')
-    $('.message').text(message)
+    $('.progress').addClass('hide');
+    $('.message').text(message);
   },
   handleClick: function(e){
     
@@ -19,40 +20,43 @@ var FileUploadView = Backbone.Marionette.View.extend({
     var that = this;
     
 
-    var file = document.getElementById('file-upload').files[0]
+    var file = document.getElementById('file-upload').files[0];
 
     if(file !== undefined){
-      $('.progress-bar').css('width', '0%')    
+      $('.progress-bar').css('width', '0%'); 
       $('.progress').removeClass('hide');
-      var newFile = new File({ file_name: file.name, file_size: file.size, mimetype: file.type })
+      var newFile = new File({ file_name: file.name, file_size: file.size, mimetype: file.type });
     
       var formData = new FormData();
-      formData.append('upload', file)
+      formData.append('upload', file);
       var xhr = new XMLHttpRequest();
     
-      xhr.open('post', '/api/files', true)
+      xhr.open('post', '/api/files', true);
     
       xhr.upload.onprogress = function(e){
         if(e.lengthComputable){
-          var percentage = (e.loaded / e.total) * 100
-          $('.progress-bar').css('width', percentage + '%')
+          var percentage = (e.loaded / e.total) * 100;
+          $('.progress-bar').css('width', percentage + '%');
         }
-      }
+      };
     
       xhr.onerror = function(e){
-        that.showInfo("Error...")
-      }
+        that.showInfo("Error...");
+      };
       
       xhr.onload = function(){
-        that.showInfo(file.name + " was successfully uploaded...")
-        that.collection.add(newFile)
-        document.getElementById('file-upload').value = ''
-      }
+        that.showInfo(file.name + " was successfully uploaded...");
+        that.collection.add(newFile);
+        document.getElementById('file-upload').value = '';
+      };
       
-      xhr.send(formData)
+      xhr.send(formData);
     } else {
-      that.showInfo("Please select a file...")
+      that.showInfo("Please select a file...");
     }
+  },
+  clearMessage: function(){
+    $('.message').text('');
   }
 });
 

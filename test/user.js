@@ -19,34 +19,35 @@ describe("Clear users...", function(done) {
     db.any('select * from users')
     .then(function(data){
       expect(data).to.deep.equal([]);
+      done();      
       });
-      done()
+
   });
 });
 
 describe('Users', function(){
   
   before(function(done){
-    db.none('insert into users( username, password )' + 'values( $1, $2 )', ['username', 'password'] )
+    db.none('insert into users( username, password )' + 'values( $1, $2 )', ['username', 'password'] );
     done();
-  })  
+  });
   
   it('should sign in', function(done) {
     agent.post('/login')
     .send({ 'username': 'username', 'password': 'password' })
     .expect(200)
     .end(function(err, res){
-      expect(res).to.have.status(302)
-      done()
-    })
-  })
+      expect(res).to.have.status(302);
+      done();
+    });
+  });
   
   it('should add a SINGLE user on /users POST', function(done) {
     agent.post('/api/users')
     .send({ 'username':'username', 'password':'password' })
     .end(function(err, res){
       expect(res).to.have.status(200);
-      expect(res.body).to.have.status('success')
+      expect(res.body).to.have.status('success');
       done();
     });
   });
@@ -82,7 +83,7 @@ describe('Users', function(){
         expect(res).to.be.a('object');
         expect(res.body).to.have.property('id');
         expect(res.body).to.have.property('username');
-        expect(res.body.username).to.equal('username')
+        expect(res.body.username).to.equal('username');
         done();
       });    
   });

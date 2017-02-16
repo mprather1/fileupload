@@ -6,7 +6,7 @@ var config = require("./_config");
 var environment = process.env.NODE_ENV || "development";
 var morgan = require("morgan");
 var routes = require("./routes");
-var port = process.env.PORT || 8000
+var port = process.env.PORT || 8000;
 var session = require("express-session");
 var RedisStore = require("connect-redis")(session);
 var passport = require("passport");
@@ -55,7 +55,7 @@ app.use('/api', routes);
 
 var server = app.listen(port, function(){
   if(environment === "development"){
-    console.log(("Listening on port " + port + "..."))
+    console.log(("Listening on port " + port + "..."));
   }
 });
 

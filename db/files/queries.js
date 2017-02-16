@@ -7,43 +7,42 @@ function uploadFile(req, res, next){
     .json({
       status: 'success',
       message: 'uploaded ONE file...'
-    })
-  })
+    });
+  });
 }
 
 function getAllFiles(req, res, next){
   db.any('select * from files')
   .then(function(data){
     res.status(200)
-    .json(data)
+    .json(data);
   })
   .catch(function(err){
-    return next(err)
-  })
+    return next(err);
+  });
 }
 
 function getSingleFile(req, res, next){
   db.one('select * from files where id = $1', req.params.id)
   .then(function(data){
-    console.log(data)
     res.status(200)
-    .json(data)
+    .json(data);
   })
   .catch(function(err){
-    return next(err)
-  })
+    return next(err);
+  });
 }
 
 function removeFile(req, res, next){
   var fileID = parseInt(req.params.id);
-  deleteFile(fileID)
+  deleteFile(fileID);
   db.result('delete from files where id = $1', fileID)
   .then(function(result){
     res.status(200)
     .json({
       status: 'success',
       message: `Removed ${result.rowCount} files...`
-    })
+    });
   })
   .catch(function(err){
     return next(err);

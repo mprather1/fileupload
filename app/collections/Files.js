@@ -1,4 +1,4 @@
-var File = require("../models/File")
+var File = require("../models/File");
 
 var Files = Backbone.Collection.extend({
   model: File,

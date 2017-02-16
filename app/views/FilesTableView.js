@@ -20,10 +20,10 @@ var FilesTableView = Backbone.Marionette.View.extend({
     'mouseout .table-row': 'mouseoutRow',    
   },
   initialize: function(){
-    this.render()
+    this.render();
   },
   onRender: function(){
-    this.showChildView('body', new FilesView({ collection: this.collection }))
+    this.showChildView('body', new FilesView({ collection: this.collection }));
   },
   mouseoverHeader: function(event){
     $(event.currentTarget).css({"background-color":"lightgrey","cursor":"pointer"});

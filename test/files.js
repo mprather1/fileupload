@@ -2,7 +2,7 @@ var chai = require("chai");
 var chaiHttp = require("chai-http");
 var server = require('../server');
 var expect = chai.expect;
-var agent = require("supertest").agent(server)
+var agent = require("supertest").agent(server);
 var db = require("../db").init;
 
 chai.use(chaiHttp);
@@ -27,19 +27,19 @@ describe("Clear files...", function(done) {
 describe("Files", function(){
   
   before(function(done){
-    db.none('insert into users( username, password )' + 'values( $1, $2 )', ['username', 'password'] )
+    db.none('insert into users( username, password )' + 'values( $1, $2 )', ['username', 'password'] );
     done();
-  })
+  });
   
   it('should sign in', function(done) {
     agent.post('/login')
     .send({ 'username': 'username', 'password': 'password' })
     .expect(200)
     .end(function(err, res){
-      expect(res).to.have.status(302)
-      done()
-    })
-  })
+      expect(res).to.have.status(302);
+      done();
+    });
+  });
   
   it('should add a single file at /files POST', function(done){
     agent.post('/api/files')
@@ -67,7 +67,7 @@ describe("Files", function(){
       agent.delete('/api/files/' + response.body[0].id)
       .end(function(err, res){
         expect(res).to.have.status(200);
-        expect(res.body).to.have.status('success')
+        expect(res.body).to.have.status('success');
         done();
       });
     });
