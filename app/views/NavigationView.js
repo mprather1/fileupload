@@ -1,6 +1,6 @@
 var NavigationView = Backbone.Marionette.View.extend({
   tagName: 'nav',
-  className: 'navbar navbar-inverse',
+  className: 'navbar navbar-default',
   initialize: function(options){
     this.title = options.title;
   },

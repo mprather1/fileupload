@@ -15,7 +15,7 @@ var RootView = Backbone.Marionette.View.extend({
     }
   },
   onRender: function(){
-    this.showChildView('header', new NavigationView({ title: "Default" }));
+    this.showChildView('header', new NavigationView({ title: "File Manager" }));
   }
 });
 

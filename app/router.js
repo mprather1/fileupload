@@ -8,7 +8,10 @@ var Router = Marionette.AppRouter.extend({
   },
   
   appRoutes: {
+    '': 'index',
+    'upload': "upload",
     'login': 'loginFunction',
+    
   }
 });
 
