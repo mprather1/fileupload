@@ -1,9 +1,8 @@
 var chai = require("chai");
-var supertest = require("supertest");
 var chaiHttp = require("chai-http");
 var server = require('../server');
-var request = supertest(server)
 var expect = chai.expect;
+var agent = require("supertest").agent(server)
 var db = require("../db").init;
 
 chai.use(chaiHttp);
@@ -12,6 +11,7 @@ describe("Clear files...", function(done) {
   
   beforeEach(function(done){
     db.none('TRUNCATE files RESTART IDENTITY');
+    db.none('TRUNCATE users RESTART IDENTITY');
     done();
   });
   
@@ -26,8 +26,23 @@ describe("Clear files...", function(done) {
 
 describe("Files", function(){
   
+  before(function(done){
+    db.none('insert into users( username, password )' + 'values( $1, $2 )', ['username', 'password'] )
+    done();
+  })
+  
+  it('should sign in', function(done) {
+    agent.post('/login')
+    .send({ 'username': 'username', 'password': 'password' })
+    .expect(200)
+    .end(function(err, res){
+      expect(res).to.have.status(302)
+      done()
+    })
+  })
+  
   it('should add a single file at /files POST', function(done){
-    request.post('/api/files')
+    agent.post('/api/files')
     .attach('upload', './test/unicorn.jpg' )
     .end(function(err, res){
       expect(res).to.have.status(200);
@@ -37,7 +52,7 @@ describe("Files", function(){
   });
   
   it('should get all files at /files GET', function(done) {
-    request.get('/api/files')
+    agent.get('/api/files')
     .end(function(err, res){
       expect(res).to.have.status(200);
       expect(res.body[0]).to.have.property('file_name');
@@ -47,9 +62,9 @@ describe("Files", function(){
   });
   
   it('should delete a single file at /files/:id DELETE', function(done) {
-    request.get('/api/files')
+    agent.get('/api/files')
     .end(function(error, response){
-      request.delete('/api/files/' + response.body[0].id)
+      agent.delete('/api/files/' + response.body[0].id)
       .end(function(err, res){
         expect(res).to.have.status(200);
         expect(res.body).to.have.status('success')

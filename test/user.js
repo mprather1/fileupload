@@ -2,6 +2,7 @@ var chai = require("chai");
 var chaiHttp = require("chai-http");
 var server = require('../server');
 var expect = chai.expect;
+var agent = require("supertest").agent(server);
 var db = require("../db").init;
 
 
@@ -25,9 +26,23 @@ describe("Clear users...", function(done) {
 
 describe('Users', function(){
   
+  before(function(done){
+    db.none('insert into users( username, password )' + 'values( $1, $2 )', ['username', 'password'] )
+    done();
+  })  
+  
+  it('should sign in', function(done) {
+    agent.post('/login')
+    .send({ 'username': 'username', 'password': 'password' })
+    .expect(200)
+    .end(function(err, res){
+      expect(res).to.have.status(302)
+      done()
+    })
+  })
+  
   it('should add a SINGLE user on /users POST', function(done) {
-    chai.request(server)
-    .post('/api/users')
+    agent.post('/api/users')
     .send({ 'username':'username', 'password':'password' })
     .end(function(err, res){
       expect(res).to.have.status(200);
@@ -37,8 +52,7 @@ describe('Users', function(){
   });
   
   it('should list ALL users on /users/active GET', function(done){
-    chai.request(server)
-      .get('/api/users')
+      agent.get('/api/users')
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
@@ -49,8 +63,7 @@ describe('Users', function(){
   });
   
   it('should update a SINGLE user on /users/:id PUT', function(done) {
-    chai.request(server)
-    .put('/api/users/1')
+    agent.put('/api/users/1')
     .send({"password":"1111111111"})
     .end(function(err, res){
       expect(res).to.have.status(200);
@@ -61,8 +74,7 @@ describe('Users', function(){
   });
   
   it('should list a SINGLE user on /user/:id GET', function(done) {
-    chai.request(server)
-      .get('/api/users/1')
+      agent.get('/api/users/1')
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
@@ -76,11 +88,9 @@ describe('Users', function(){
   });
    
   it('should delete a SINGLE user on /users/:id DELETE', function(done) {
-    chai.request(server)
-      .get("/api/users/")
+      agent.get("/api/users/")
       .end(function(err, res) {
-        chai.request(server)
-          .delete("/api/users/" + res.body[0].id )
+          agent.delete("/api/users/" + res.body[0].id )
           .end(function(error, response){
             expect(response).to.have.status(200);
             expect(response).to.be.json;
